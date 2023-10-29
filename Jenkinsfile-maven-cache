@@ -1,0 +1,19 @@
+#!groovy
+
+pipeline {
+  agent any
+  options {
+    mavenCache(enable: true)
+  }
+  triggers {
+    mavenCacheCleaner(spec: '@daily', expirationDays: 7)
+  }
+  stages {
+    stage('Nothing'){
+      steps{
+        sh "echo 'all good'"
+      }
+    }
+  }
+  
+}  

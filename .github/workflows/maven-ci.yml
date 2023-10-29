@@ -1,0 +1,120 @@
+name: Maven CI Build
+
+on:
+  workflow_call:
+    inputs:
+      maven_args:
+        description: The arguments to pass to all Maven commands when building the code
+        required: false
+        default: '-D"invoker.streamLogsOnFailures"'
+        type: string
+
+      maven_version:
+        description: The Maven version used for builds
+        required: false
+        default: '3.9.4'
+        type: string
+
+      os-matrix:
+        description: 'os matrix as json array'
+        required: false
+        default: '[ "ubuntu-latest" ]'
+        type: string
+
+      jdk-matrix:
+        description: 'jdk matrix as json array'
+        required: false
+        default: '[  "11", "17" ]'
+        type: string
+
+      matrix-exclude:
+        description: 'exclude for matrix as json'
+        required: false
+        default: '[]'
+        type: string
+
+      max-parallel:
+        description: 'max parallel jobs'
+        required: false
+        default: 100
+        type: number
+
+      timeout-minutes:
+        description: 'timeout-minutes used by the builds (defaults to 360)'
+        required: false
+        default: 360
+        type: number
+
+      jdk-distribution-matrix:
+        description: "jdk distribution matrix"
+        required: false
+        default: '[ "temurin" ]'
+        type: string
+
+
+
+      verify-goal:
+        description: The Maven goal used by verfy jobs
+        required: false
+        default: '-P run-its verify'
+        type: string
+
+      verify-fail-fast:
+        description: Determinate if verification matrix should fail fast
+        required: false
+        default: true
+        type: boolean
+
+# allow single build per branch or PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+    name: ${{ matrix.os }} jdk-${{ matrix.jdk }}-${{ matrix.distribution }}-mvn-${{ inputs.maven_version }}
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: ${{ inputs.verify-fail-fast }}
+      matrix:
+        os: ${{ fromJSON( inputs.os-matrix ) }}
+        jdk: ${{ fromJSON( inputs.jdk-matrix ) }}
+        distribution: ${{ fromJSON( inputs.jdk-distribution-matrix ) }}
+        exclude: ${{ fromJSON( inputs.matrix-exclude ) }}
+      max-parallel: ${{ inputs.max-parallel }}
+
+    steps:
+      - name: Should run
+        id: should-run
+        if: >
+          matrix.os != inputs.ff-os ||
+          matrix.jdk != inputs.ff-jdk ||
+          matrix.distribution != inputs.ff-jdk-distribution ||
+          inputs.verify-goal != inputs.ff-goal
+        run: echo ok
+
+      - name: Checkout
+        if: steps.should-run.conclusion == 'success'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Set up JDK
+        if: steps.should-run.conclusion == 'success'
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: ${{ matrix.distribution }}
+          cache: 'maven'
+
+      - name: Set up Maven
+        if: steps.should-run.conclusion == 'success'
+        run: mvn --errors --batch-mode --show-version wrapper:wrapper "-Dmaven=${{ inputs.maven_version }}"
+
+      - name: Build with Maven
+        if: steps.should-run.conclusion == 'success'
+        run: ./mvnw --errors --batch-mode --show-version ${{ inputs.maven_args }} ${{ inputs.verify-goal }}
