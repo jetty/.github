@@ -51,8 +51,6 @@ on:
         default: '[ "temurin" ]'
         type: string
 
-
-
       verify-goal:
         description: The Maven goal used by verfy jobs
         required: false
