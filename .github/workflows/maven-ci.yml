@@ -54,7 +54,7 @@ on:
       verify-goal:
         description: The Maven goal used by verify jobs
         required: false
-        default: 'install javadoc -e -V -B'
+        default: 'install javadoc:javadoc -e -V -B'
         type: string
 
       verify-fail-fast:
