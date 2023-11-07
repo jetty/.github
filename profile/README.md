@@ -6,6 +6,8 @@ Submit Security issues to [security\@jetty.org](mailto:security@jetty.org).
 
 # Repository List
 
+Repositories are managed in the [.eclipsefdn](https://github.com/jetty/.eclipsefdn) repository.
+
 * Eclipse Jetty 
   * [jetty-12.0.x](https://github.com/jetty/jetty.project/tree/jetty-12.0.x) 
   * [jetty-11.0.x](https://github.com/jetty/jetty.project/tree/jetty-11.0.x)
