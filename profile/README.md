@@ -15,9 +15,8 @@ Repositories are managed in the [.eclipsefdn](https://github.com/jetty/.eclipsef
   * [jetty-9.4.x](https://github.com/jetty/jetty.project/tree/jetty-9.4.x)
 * Jetty Docker
   * [jetty-docker](https://github.com/jetty/jetty-docker)
-* Jetty Website
-  * eclipse.dev/jetty -> [jetty-website](https://github.com/jetty/jetty-website)
-  * jetty.org (Under Construction) ->  [jetty.website](https://github.com/jetty/jetty.website)
+* Jetty.org Website
+  * [jetty.website](https://github.com/jetty/jetty.website)
 * APIs
   * [jetty.servlet.api](https://github.com/jetty/jetty.servlet.api)
   * [jetty.websocket.api](https://github.com/jetty/jetty.websocket.api)
