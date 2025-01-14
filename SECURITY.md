@@ -7,12 +7,9 @@ If you think you have found a vulnerability in this repository, please report it
 
 **Please do not report security vulnerabilities through public issues, discussions, or pull requests.**
 
-Instead, report it using one of the following ways:
+Instead, contact the [Jetty Security Team](mailto:security@jetty.org) via email.
 
-* Contact the [Eclipse Foundation Security Team](mailto:security@eclipse-foundation.org) via email
-* Create a [confidential issue](https://gitlab.eclipse.org/security/vulnerability-reports/-/issues/new?issuable_template=new_vulnerability) in the Eclipse Foundation Vulnerability Reporting Tracker
-
-You can find more information about reporting and disclosure at the [Eclipse Foundation Security page](https://www.eclipse.org/security/).
+You can find more information about reporting and disclosure at the [Eclipse Jetty Security page](https://jetty.org/security.html).
 
 Please include as much of the information listed below as you can to help us better understand and resolve the issue:
 
