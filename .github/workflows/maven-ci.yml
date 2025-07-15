@@ -12,7 +12,7 @@ on:
       maven_version:
         description: The Maven version used for builds
         required: false
-        default: '3.9.6'
+        default: '3.9.10'
         type: string
 
       os-matrix:
@@ -24,7 +24,7 @@ on:
       jdk-matrix:
         description: 'jdk matrix as json array'
         required: false
-        default: '[ "11", "17" ]'
+        default: '[ "11", "17", "21" ]'
         type: string
 
       matrix-exclude:
